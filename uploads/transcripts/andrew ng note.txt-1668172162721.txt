@@ -1,0 +1,60 @@
+@article{,
+title= {Stanford CS229 - Machine Learning - Andrew Ng},
+journal= {},
+author= {Andrew Ng},
+year= {2008},
+url= {},
+license= {},
+abstract= {# Course Description
+
+This course provides a broad introduction to machine learning and statistical pattern recognition. Topics include: supervised learning (generative/discriminative learning, parametric/non-parametric learning, neural networks, support vector machines); unsupervised learning (clustering, dimensionality reduction, kernel methods); learning theory (bias/variance tradeoffs; VC theory; large margins); reinforcement learning and adaptive control. The course will also discuss recent applications of machine learning, such as to robotic control, data mining, autonomous navigation, bioinformatics, speech recognition, and text and web data processing.
+
+# Prerequisites
+
+Students are expected to have the following background:
+Knowledge of basic computer science principles and skills, at a level sufficient to write a reasonably non-trivial computer program.
+Familiarity with the basic probability theory. (CS109 or Stat116 is sufficient but not necessary.)
+Familiarity with the basic linear algebra (any one of Math 51, Math 103, Math 113, or CS 205 would be much more than necessary.)
+
+Introduction (1 class)
+
+* Basic concepts. 
+
+Supervised learning. (7 classes)
+
+* Supervised learning setup. LMS.
+* Logistic regression. Perceptron. Exponential family. 
+* Generative learning algorithms. Gaussian discriminant analysis. Naive Bayes. 
+* Support vector machines. 
+* Model selection and feature selection. 
+* Ensemble methods: Bagging, boosting. 
+* Evaluating and debugging learning algorithms. 
+
+Learning theory. (3 classes)
+
+* Bias/variance tradeoff. Union and Chernoff/Hoeffding bounds. 
+* VC dimension. Worst case (online) learning. 
+* Practical advice on how to use learning algorithms. 
+
+Unsupervised learning. (5 classes)
+
+* Clustering. K-means.
+* EM. Mixture of Gaussians.
+* Factor analysis.
+* PCA (Principal components analysis).
+* ICA (Independent components analysis). 
+
+Reinforcement learning and control. (4 classes)
+
+* MDPs. Bellman equations. 
+* Value iteration and policy iteration. 
+* Linear quadratic regulation (LQR). LQG. 
+* Q-learning. Value function approximation. 
+* Policy search. Reinforce. POMDPs. 
+
+https://i.imgur.com/c7Pjt1G.png
+},
+keywords= {machine learning, statistics, Regression},
+terms= {},
+superseded= {}
+}

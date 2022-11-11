@@ -1,0 +1,167 @@
+AGGREGATION FRAMEWORK----------------
+
+"$match"
+
+db.movies.aggregate([
+	{"$match":
+		{"imdb.rating":{"$gte":7},
+		"genres":{"$nin":["Crime","Horror"]},
+		"$or":[{"rated":"PG"},{"rated":"G"}],
+		"languages":{"$all":["English","Japanese"]}
+	}
+]).itcount()
+
+imdb.rating is at least 7
+genres does not contain "Crime" or "Horror"
+rated is either "PG" or "G"
+languages contains "English" and "Japanese"
+
+There are times when we want to make sure that the field is an array, and that it is not empty. We can do this within $match
+{ $match: { writers: { $elemMatch: { $exists: true } } }
+
+db.records.find( { a: { $exists: true } } )........to return docs only if that field a exists
+-------------------------------------------------------------------------------------------
+
+"$project"
+
+db.solarSystem.aggregate([{
+	"$project":{
+		_id:0,
+		name:1,
+		myWeight: {"$multiply":[{"$divide":["$gravity.value",9.8]},86]}
+	}
+}])
+
+----------------------------------------------------------------------------------------------
+
+"$map"
+
+"writers" : [ "Vincenzo Cerami (story)", "Roberto Benigni (story)" ]
+This presents a problem, since comparing "Roberto Benigni" to "Roberto Benigni (story)" will definitely result in a difference.
+
+writers: {
+  $map: {
+    input: "$writers", //input array
+    as: "writer", //refering each element of array
+    in: "$$writer" //reiterating each element (refered with two dollar signs)
+  }
+}
+
+writers: {
+  $map: {
+    input: "$writers",
+    as: "writer",
+    in: {
+      $arrayElemAt: [
+        {
+          $split: [ "$$writer", " (" ]
+        },
+        0
+      ]
+    }
+  }
+}
+------------------------------------------------------------------------------------------------
+
+"$addFields"
+
+db.animals.aggregate( [
+  {
+    $addFields: { "cats": 20 }
+  }
+] )
+
+{ _id: 1, student: "Maya", homework: [ 10, 5, 10 ], quiz: [ 10, 8 ], extraCredit: 0 }
+db.scores.aggregate([
+   { $match: { _id: 1 } },
+   { $addFields: { homework: { $concatArrays: [ "$homework", [ 7 ] ] } } }.........to add element to array when projecting only
+])
+
+-------------------------------------------------------------------------------------------------------------
+
+"$sample"
+
+db.users.aggregate(
+   [ { $sample: { size: 3 } } ]
+)...........returns 3 random documents from the total set of documents
+
+-------------------------------------------------------------------------------------------------------------
+
+$lookup
+
+db.classes.aggregate( [
+   {
+      $lookup:
+         {
+            from: "members",
+            localField: "enrollmentlist",
+            foreignField: "name",
+            as: "enrollee_info"
+        }
+   }
+] )
+
+------------------------------------------------------------------------------------------------------------
+
+db.people.aggregate( [
+  { $match: { "name": "Tanya Jordan" } },
+  { $graphLookup: {
+      from: "people",
+      startWith: "$friends",
+      connectFromField: "friends",
+      connectToField: "name",
+      as: "golfers",
+      restrictSearchWithMatch: { "hobbies" : "golf" }
+    }
+  }])
+--------------------------------------------------------------------------------------------------------
+
+$sortByCount
+
+{ $sortByCount:  <expression> }
+
+==
+
+{ $group: { _id: <expression>, count: { $sum: 1 } } },
+{ $sort: { count: -1 } }
+
+----------------------------------------------------------------------------------------------------------
+
+$bucket
+
+db.artists.aggregate( [
+  // First Stage
+  {
+    $bucket: {
+      groupBy: "$year_born",                        // Field to group by
+      boundaries: [ 1840, 1850, 1860, 1870, 1880 ], // Boundaries for the buckets
+      default: "Other",                             // Bucket id for documents which do not fall into a bucket
+      output: {                                     // Output for each bucket
+        "count": { $sum: 1 },
+        "artists" :
+          {
+            $push: {
+              "name": { $concat: [ "$first_name", " ", "$last_name"] },
+              "year_born": "$year_born"
+            }
+          }
+      }
+    }
+  }])
+
+---------------------------------------------------------------------------------------------------------
+
+
+
+ mongo "mongodb://cluster0-shard-00-00-jxeqq.mongodb.net:27017,cluster0-shard-00-01-jxeqq.mongodb.net:27017,cluster0-shard-00-02-jxeqq.mongodb.net:27017/aggregations?replicaSet=Cluster0-shard-0" --authenticationDatabase admin --ssl -u m121 -p aggregations --norc
+
+
+to prevent crossing memory limits:
+ 
+use indexes
+use project and limit
+allowDiskUse:true as a last resort since it degrades performance so used in batch processing more, (does not work with graphLookUp)
+
+
+
+ 

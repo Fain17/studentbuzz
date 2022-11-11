@@ -1,0 +1,84 @@
+// factors of a number//
+#include <stdio.h>
+
+void main()
+{
+int i,fact,num;
+printf("enter the number \n");
+scanf("%d",&num);
+for(i=1; i<=num; i++)
+{
+  if ((num%i)==0)
+  {
+    fact=i;
+    printf("%d \t",fact);
+  } 
+}  
+}
+
+
+//lcm//
+#include <stdio.h>
+void main()
+{
+int num1,num2,l;
+printf("enter the two numbers \n");
+scanf("%d%d",&num1,&num2);
+l=(num1>num2)?num1:num2;
+do
+{
+  if ((l%num1)==0 &&  (l%num2)==0)
+  {
+    printf("LCM = %d", l);
+    break;
+  }
+  l++;
+}
+while (l>0);
+}
+
+
+
+//hcf//
+#include <stdio.h>
+void main()
+{
+int hcf,num1,num2,h;
+printf("enter the two numbers \n");
+scanf("%d%d",&num1,&num2);
+h=(num1<num2)?num1:num2;
+do
+{
+  if ((num1%h)==0 &&  (num2%h)==0)
+  {
+    printf("HCF = %d", h);
+    break;
+  }
+  h--;
+}
+while (h>0);
+}
+
+
+\\fibonacii\\
+#include <stdio.h>
+#include <stdlib.h>
+void main() 
+{
+int n,fib,i,a=0,b=1;
+printf(" enter the value of n \n");
+scanf("%d",&n);
+if (n<=0)
+{
+  printf("invalid value of n \n");
+  exit(0);  
+}
+printf("%d""\t""%d""\t",a,b);
+for (i=1; i<=(n-2); i++)
+{
+  fib=a+b;
+  printf("%d""\t",fib);
+  a=b;
+  b=fib;
+}
+}
